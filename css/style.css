@@ -1,0 +1,31 @@
+.calculator {
+  width: 400px;
+  margin: 50px auto;
+  border: 1px solid #000000;
+}
+.calculator__result {
+  display: flex;
+  justify-content: flex-end;
+  background-color: #003077;
+  color: #ffffff;
+  font-size: 28px;
+  font-weight: bold;
+  padding: 20px;
+}
+.calculator__buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.calculator__buttons > * {
+  height: 100px;
+  background-color: #b6d3ff;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #000000;
+}
+.calculator__equal-button {
+  height: 300px;
+  grid-column: 4;
+  grid-row: 2 / span 3;
+  align-self: center;
+}
