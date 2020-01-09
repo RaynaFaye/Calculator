@@ -25,6 +25,8 @@ calculatorButtons.addEventListener('click', function(event) {
   }
   if (actionKey === 'back') {
     console.log('return key');
+    result.textContent = result.textContent.slice(0, -1);
+    value = result.textContent;
   }
 });
 
@@ -32,3 +34,6 @@ calculatorButtons.addEventListener('click', function(event) {
 // document.addEventListener('keydown', function(event) {
 //   console.log(event.key);
 // });
+
+//The console.log to copy paste to check the result and value variable values
+//console.log(`result is ${result.textContent}; value is ${value}`);
