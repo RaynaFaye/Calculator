@@ -8,6 +8,23 @@ let actionCalled = '';
 function add(num1, num2) {
   return Number(num1) + Number(num2);
 }
+function substract(num1, num2) {
+  return Number(num1) - Number(num2);
+}
+function multiply(num1, num2) {
+  return Number(num1) * Number(num2);
+}
+function divide(num1, num2) {
+  return Number(num1) / Number(num2);
+}
+function changeValuesOnPage(actionToCall) {
+  numberEntries.push(value);
+  let finalResult = actionToCall(...numberEntries);
+  result.textContent = finalResult;
+  previousEntry.textContent = `${previousEntry.textContent} ${value} = ${finalResult} `;
+  value = '';
+  numberEntries = [];
+}
 
 //What to do when clicking on buttons
 calculatorButtons.addEventListener('click', function(event) {
@@ -19,28 +36,50 @@ calculatorButtons.addEventListener('click', function(event) {
     result.textContent = value;
   }
   //Action keys (+ - * /)
-  if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiple' || actionKey === 'divide') {
+  if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiply' || actionKey === 'divide') {
     if (actionKey === 'add') {
       actionCalled = 'add';
       numberEntries.push(value);
       previousEntry.textContent = `${value} + `;
       value = '';
     }
+    if (actionKey === 'substract') {
+      actionCalled = 'substract';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} - `;
+      value = '';
+    }
+    if (actionKey === 'multiply') {
+      actionCalled = 'multiply';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} * `;
+      value = '';
+    }
+    if (actionKey === 'divide') {
+      actionCalled = 'divide';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} / `;
+      value = '';
+    }
   }
   //Equal Key : Currently just simple with only two numbers
   if (actionKey === 'equal') {
     if (actionCalled === 'add') {
-      numberEntries.push(value);
-      let finalResult = add(...numberEntries);
-      result.textContent = finalResult;
-      previousEntry.textContent = `${previousEntry.textContent} ${value} = ${finalResult} `;
-      value = '';
-      numberEntries = [];
+      changeValuesOnPage(add);
+    }
+    if (actionCalled === 'substract') {
+      changeValuesOnPage(substract);
+    }
+    if (actionCalled === 'multiply') {
+      changeValuesOnPage(multiply);
+    }
+    if (actionCalled === 'divide') {
+      changeValuesOnPage(divide);
     }
   }
   //Clear everything
   if (actionKey === 'clear') {
-    previousEntry.textContent = 0;
+    previousEntry.textContent = '';
     result.textContent = 0;
     value = '';
   }
