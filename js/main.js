@@ -1,25 +1,99 @@
 const calculatorButtons = document.querySelector('.calculator__buttons');
+const result = document.querySelector('.calculator__current-value');
+const previousEntry = document.querySelector('.calculator__previous-value');
+let value = '';
+let numberEntries = [];
+let actionCalled = '';
+
+function add(num1, num2) {
+  return Number(num1) + Number(num2);
+}
+function substract(num1, num2) {
+  return Number(num1) - Number(num2);
+}
+function multiply(num1, num2) {
+  return Number(num1) * Number(num2);
+}
+function divide(num1, num2) {
+  return Number(num1) / Number(num2);
+}
+function changeValuesOnPage(actionToCall) {
+  numberEntries.push(value);
+  let finalResult = actionToCall(...numberEntries);
+  result.textContent = finalResult;
+  previousEntry.textContent = `${previousEntry.textContent} ${value} = ${finalResult} `;
+  value = '';
+  numberEntries = [];
+}
+
+//What to do when clicking on buttons
 calculatorButtons.addEventListener('click', function(event) {
   let currentNumber = event.target.textContent;
-  console.log(currentNumber);
   let actionKey = event.target.dataset.action;
   if (!actionKey) {
-    console.log('number key');
+    value = value + currentNumber;
+    //Show the current result on top of the calculator
+    result.textContent = value;
   }
-  if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiple' || actionKey === 'divide') {
-    console.log('operator key');
+  //Action keys (+ - * /)
+  if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiply' || actionKey === 'divide') {
+    if (actionKey === 'add') {
+      actionCalled = 'add';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} + `;
+      value = '';
+    }
+    if (actionKey === 'substract') {
+      actionCalled = 'substract';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} - `;
+      value = '';
+    }
+    if (actionKey === 'multiply') {
+      actionCalled = 'multiply';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} * `;
+      value = '';
+    }
+    if (actionKey === 'divide') {
+      actionCalled = 'divide';
+      numberEntries.push(value);
+      previousEntry.textContent = `${value} / `;
+      value = '';
+    }
   }
+  //Equal Key : Currently just simple with only two numbers
   if (actionKey === 'equal') {
-    console.log('equal key');
+    if (actionCalled === 'add') {
+      changeValuesOnPage(add);
+    }
+    if (actionCalled === 'substract') {
+      changeValuesOnPage(substract);
+    }
+    if (actionCalled === 'multiply') {
+      changeValuesOnPage(multiply);
+    }
+    if (actionCalled === 'divide') {
+      changeValuesOnPage(divide);
+    }
   }
+  //Clear everything
   if (actionKey === 'clear') {
-    console.log('clear key');
+    previousEntry.textContent = '';
+    result.textContent = 0;
+    value = '';
   }
+  //Take of last value on current shown result
   if (actionKey === 'back') {
-    console.log('return key');
+    result.textContent = result.textContent.slice(0, -1);
+    value = result.textContent;
   }
 });
 
-document.addEventListener('keydown', function(event) {
-  console.log(event.key);
-});
+//Get value on keypress not currently set up but kept for the time being
+// document.addEventListener('keydown', function(event) {
+//   console.log(event.key);
+// });
+
+//The console.log to copy paste to check the result and value variable values
+//console.log(`result is ${result.textContent}; value is ${value}`);
