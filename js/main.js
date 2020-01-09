@@ -1,5 +1,5 @@
 const calculatorButtons = document.querySelector('.calculator__buttons');
-const result = document.querySelector('.calculator__result');
+const result = document.querySelector('.calculator__current-value');
 let value = '';
 
 //What to do when clicking on buttons

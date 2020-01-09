@@ -5,12 +5,22 @@
 }
 .calculator__result {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   background-color: #003077;
   color: #ffffff;
   font-size: 28px;
   font-weight: bold;
   padding: 20px;
+}
+.calculator__previous-value {
+  font-size: 14px;
+  align-self: flex-start;
+  margin: 0px;
+  word-break: break-all;
+}
+.calculator__current-value {
+  align-self: flex-end;
+  margin-bottom: 0px;
 }
 .calculator__buttons {
   display: grid;

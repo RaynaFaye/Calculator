@@ -9,8 +9,11 @@
   </head>
   <body>
     <div class="calculator">
-      <section class="calculator__result">0</section>
-      <section class="calculator__buttons">
+      <div class="calculator__result">
+        <p class="calculator__previous-value"></p>
+        <p class="calculator__current-value">0</p>
+      </div>
+      <div class="calculator__buttons">
         <button data-action="add">+</button>
         <button data-action="substract">-</button>
         <button data-action="multiply">*</button>
@@ -29,7 +32,7 @@
         <button data-action="clear">C</button>
         <button data-action="back"><-</button>
         <button data-action="equal" class="calculator__equal-button">=</button>
-      </section>
+      </div>
     </div>
     <script src="js/main.js"></script>
   </body>
