@@ -37,30 +37,26 @@ calculatorButtons.addEventListener('click', function(event) {
   }
   //Action keys (+ - * /)
   if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiply' || actionKey === 'divide') {
+    if (numberEntries.length === 0) {
+      numberEntries.push(value);
+    }
     if (actionKey === 'add') {
       actionCalled = 'add';
-      numberEntries.push(value);
-      previousEntry.textContent = `${value} + `;
-      value = '';
+      previousEntry.textContent = `${numberEntries[0]} + `;
     }
     if (actionKey === 'substract') {
       actionCalled = 'substract';
-      numberEntries.push(value);
-      previousEntry.textContent = `${value} - `;
-      value = '';
+      previousEntry.textContent = `${numberEntries[0]} - `;
     }
     if (actionKey === 'multiply') {
       actionCalled = 'multiply';
-      numberEntries.push(value);
-      previousEntry.textContent = `${value} * `;
-      value = '';
+      previousEntry.textContent = `${numberEntries[0]} * `;
     }
     if (actionKey === 'divide') {
       actionCalled = 'divide';
-      numberEntries.push(value);
-      previousEntry.textContent = `${value} / `;
-      value = '';
+      previousEntry.textContent = `${numberEntries[0]} / `;
     }
+    value = '';
   }
   //Equal Key : Currently just simple with only two numbers
   if (actionKey === 'equal') {
