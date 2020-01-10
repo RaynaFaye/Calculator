@@ -37,9 +37,39 @@ calculatorButtons.addEventListener('click', function(event) {
   }
   //Action keys (+ - * /)
   if (actionKey === 'add' || actionKey === 'substract' || actionKey === 'multiply' || actionKey === 'divide') {
+    //Set by default the value to zero if first key pressed is an action key
+    if (previousEntry.textContent === '' && value === '') {
+      value = 0;
+    }
+    //Check to see if the array of values already contains something and if it does and a new value has been entered, and the next key is an action key: add, substract, multiply or divide the two current values and then set next action.
+    if (numberEntries.length !== 0 && value !== '') {
+      numberEntries.push(value);
+      if (actionCalled === 'add') {
+        let newValue = add(...numberEntries);
+        numberEntries = [];
+        numberEntries.push(newValue);
+      }
+      if (actionCalled === 'substract') {
+        let newValue = substract(...numberEntries);
+        numberEntries = [];
+        numberEntries.push(newValue);
+      }
+      if (actionCalled === 'multiply') {
+        let newValue = multiply(...numberEntries);
+        numberEntries = [];
+        numberEntries.push(newValue);
+      }
+      if (actionCalled === 'divide') {
+        let newValue = divide(...numberEntries);
+        numberEntries = [];
+        numberEntries.push(newValue);
+      }
+    }
+    //If no previous value yet in array, push it to it
     if (numberEntries.length === 0) {
       numberEntries.push(value);
     }
+    //Set the actions up and display the previous value and current action on screen
     if (actionKey === 'add') {
       actionCalled = 'add';
       previousEntry.textContent = `${numberEntries[0]} + `;
@@ -58,7 +88,7 @@ calculatorButtons.addEventListener('click', function(event) {
     }
     value = '';
   }
-  //Equal Key : Currently just simple with only two numbers
+  //Equal Key: Call the function to do the action and change value on page
   if (actionKey === 'equal') {
     if (actionCalled === 'add') {
       changeValuesOnPage(add);
@@ -75,6 +105,7 @@ calculatorButtons.addEventListener('click', function(event) {
   }
   //Clear everything
   if (actionKey === 'clear') {
+    numberEntries = [];
     previousEntry.textContent = '';
     result.textContent = 0;
     value = '';
