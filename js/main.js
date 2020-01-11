@@ -34,7 +34,9 @@ calculatorButtons.addEventListener('click', function(event) {
   let currentNumber = event.target.textContent;
   let actionKey = event.target.dataset.action;
   if (actionCalled === 'equal') {
+    actionCalled = '';
     previousEntry.textContent = '';
+    result.textContent = '0';
   }
   if (!actionKey) {
     value = value + currentNumber;
@@ -99,32 +101,44 @@ calculatorButtons.addEventListener('click', function(event) {
   }
   //Equal Key: Call the function to do the action and change value on page
   if (actionKey === 'equal') {
-    if (actionCalled === 'add') {
-      changeValuesOnPage(add);
+    if (numberEntries.length === 0) {
+      actionCalled = '';
+    } else {
+      if (numberEntries.length !== 0 && value === '') {
+        value = numberEntries[0];
+      }
+      if (actionCalled === 'add') {
+        changeValuesOnPage(add);
+      }
+      if (actionCalled === 'substract') {
+        changeValuesOnPage(substract);
+      }
+      if (actionCalled === 'multiply') {
+        changeValuesOnPage(multiply);
+      }
+      if (actionCalled === 'divide') {
+        changeValuesOnPage(divide);
+      }
+      actionCalled = 'equal';
     }
-    if (actionCalled === 'substract') {
-      changeValuesOnPage(substract);
-    }
-    if (actionCalled === 'multiply') {
-      changeValuesOnPage(multiply);
-    }
-    if (actionCalled === 'divide') {
-      changeValuesOnPage(divide);
-    }
-    actionCalled = 'equal';
-    console.log(`${result.textContent} / ${previousEntry.textContent}`);
   }
   //Clear everything
   if (actionKey === 'clear') {
     numberEntries = [];
+    allEntries = [];
     previousEntry.textContent = '';
-    result.textContent = 0;
+    result.textContent = '0';
     value = '';
   }
   //Take of last value on current shown result
   if (actionKey === 'back') {
-    result.textContent = result.textContent.slice(0, -1);
-    value = result.textContent;
+    if (result.textContent.length === 1) {
+      result.textContent = 0;
+      value = '';
+    } else {
+      result.textContent = result.textContent.slice(0, -1);
+      value = result.textContent;
+    }
   }
 });
 
