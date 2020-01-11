@@ -4,6 +4,7 @@ const previousEntry = document.querySelector('.calculator__previous-value');
 let value = '';
 let numberEntries = [];
 let actionCalled = '';
+let allEntries = [];
 
 function add(num1, num2) {
   return Number(num1) + Number(num2);
@@ -19,17 +20,24 @@ function divide(num1, num2) {
 }
 function changeValuesOnPage(actionToCall) {
   numberEntries.push(value);
+  allEntries.push(value);
   let finalResult = actionToCall(...numberEntries);
   result.textContent = finalResult;
   previousEntry.textContent = `${previousEntry.textContent} ${value} = ${finalResult} `;
   value = '';
   numberEntries = [];
+  allEntries = [];
 }
 
 //What to do when clicking on buttons
 calculatorButtons.addEventListener('click', function(event) {
   let currentNumber = event.target.textContent;
   let actionKey = event.target.dataset.action;
+  if (actionCalled === 'equal') {
+    actionCalled = '';
+    previousEntry.textContent = '';
+    result.textContent = '0';
+  }
   if (!actionKey) {
     value = value + currentNumber;
     //Show the current result on top of the calculator
@@ -44,6 +52,7 @@ calculatorButtons.addEventListener('click', function(event) {
     //Check to see if the array of values already contains something and if it does and a new value has been entered, and the next key is an action key: add, substract, multiply or divide the two current values and then set next action.
     if (numberEntries.length !== 0 && value !== '') {
       numberEntries.push(value);
+      allEntries.push(value);
       if (actionCalled === 'add') {
         let newValue = add(...numberEntries);
         numberEntries = [];
@@ -68,52 +77,68 @@ calculatorButtons.addEventListener('click', function(event) {
     //If no previous value yet in array, push it to it
     if (numberEntries.length === 0) {
       numberEntries.push(value);
+      allEntries.push(value);
     }
     //Set the actions up and display the previous value and current action on screen
     if (actionKey === 'add') {
       actionCalled = 'add';
-      previousEntry.textContent = `${numberEntries[0]} + `;
+      previousEntry.textContent = `${previousEntry.textContent} ${allEntries.slice(-1)} + `;
     }
     if (actionKey === 'substract') {
       actionCalled = 'substract';
-      previousEntry.textContent = `${numberEntries[0]} - `;
+      previousEntry.textContent = `${previousEntry.textContent} ${allEntries.slice(-1)} - `;
     }
     if (actionKey === 'multiply') {
       actionCalled = 'multiply';
-      previousEntry.textContent = `${numberEntries[0]} * `;
+      previousEntry.textContent = `${previousEntry.textContent} ${allEntries.slice(-1)} * `;
     }
     if (actionKey === 'divide') {
       actionCalled = 'divide';
-      previousEntry.textContent = `${numberEntries[0]} / `;
+      previousEntry.textContent = `${previousEntry.textContent} ${allEntries.slice(-1)} / `;
     }
+    result.textContent = numberEntries[0];
     value = '';
   }
   //Equal Key: Call the function to do the action and change value on page
   if (actionKey === 'equal') {
-    if (actionCalled === 'add') {
-      changeValuesOnPage(add);
-    }
-    if (actionCalled === 'substract') {
-      changeValuesOnPage(substract);
-    }
-    if (actionCalled === 'multiply') {
-      changeValuesOnPage(multiply);
-    }
-    if (actionCalled === 'divide') {
-      changeValuesOnPage(divide);
+    if (numberEntries.length === 0) {
+      actionCalled = '';
+    } else {
+      if (numberEntries.length !== 0 && value === '') {
+        value = numberEntries[0];
+      }
+      if (actionCalled === 'add') {
+        changeValuesOnPage(add);
+      }
+      if (actionCalled === 'substract') {
+        changeValuesOnPage(substract);
+      }
+      if (actionCalled === 'multiply') {
+        changeValuesOnPage(multiply);
+      }
+      if (actionCalled === 'divide') {
+        changeValuesOnPage(divide);
+      }
+      actionCalled = 'equal';
     }
   }
   //Clear everything
   if (actionKey === 'clear') {
     numberEntries = [];
+    allEntries = [];
     previousEntry.textContent = '';
-    result.textContent = 0;
+    result.textContent = '0';
     value = '';
   }
   //Take of last value on current shown result
   if (actionKey === 'back') {
-    result.textContent = result.textContent.slice(0, -1);
-    value = result.textContent;
+    if (result.textContent.length === 1) {
+      result.textContent = 0;
+      value = '';
+    } else {
+      result.textContent = result.textContent.slice(0, -1);
+      value = result.textContent;
+    }
   }
 });
 
@@ -123,4 +148,4 @@ calculatorButtons.addEventListener('click', function(event) {
 // });
 
 //The console.log to copy paste to check the result and value variable values
-//console.log(`result is ${result.textContent}; value is ${value}`);
+// console.log(`result is ${result.textContent}/ value is ${value} / arrays are condensed one: ${numberEntries}, fullone ${allEntries} / actioncalled is ${actionCalled}`);

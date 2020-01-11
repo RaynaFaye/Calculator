@@ -15,11 +15,13 @@
 }
 .calculator__previous-value {
   font-size: 14px;
+  font-weight: normal;
   margin: 0px;
   word-break: break-all;
 }
 .calculator__current-value {
   margin-bottom: 0px;
+  font-size: 36px;
 }
 .calculator__buttons {
   display: grid;
@@ -31,6 +33,9 @@
   font-size: 20px;
   font-weight: bold;
   border: 1px solid #000000;
+}
+.calculator__buttons > *:active {
+  background-color: rgb(255, 182, 243);
 }
 .calculator__equal-button {
   height: 300px;
