@@ -33,6 +33,9 @@ function changeValuesOnPage(actionToCall) {
 calculatorButtons.addEventListener('click', function(event) {
   let currentNumber = event.target.textContent;
   let actionKey = event.target.dataset.action;
+  if (actionCalled === 'equal') {
+    previousEntry.textContent = '';
+  }
   if (!actionKey) {
     value = value + currentNumber;
     //Show the current result on top of the calculator
@@ -108,6 +111,8 @@ calculatorButtons.addEventListener('click', function(event) {
     if (actionCalled === 'divide') {
       changeValuesOnPage(divide);
     }
+    actionCalled = 'equal';
+    console.log(`${result.textContent} / ${previousEntry.textContent}`);
   }
   //Clear everything
   if (actionKey === 'clear') {
@@ -129,4 +134,4 @@ calculatorButtons.addEventListener('click', function(event) {
 // });
 
 //The console.log to copy paste to check the result and value variable values
-//console.log(`result is ${result.textContent}; value is ${value}`);
+// console.log(`result is ${result.textContent}/ value is ${value} / arrays are condensed one: ${numberEntries}, fullone ${allEntries} / actioncalled is ${actionCalled}`);
